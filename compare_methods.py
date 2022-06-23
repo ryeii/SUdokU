@@ -40,7 +40,6 @@ def run_test(m):
 
     return correct, size, solving_time
 
-
 # display(systematic_solve.solve(quiz_df["quizzes"][0]))
 # print()
 # display(quiz_df["solutions"][0])

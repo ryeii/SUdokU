@@ -78,6 +78,7 @@ def solve(quiz):
                     r, c = np.where(mat == k)
                     if len(r) == 9:
                         nums_not_done.remove(k)
+
     ans = ''
     for i in mat.tolist():
         for j in i:

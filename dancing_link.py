@@ -101,9 +101,9 @@ if __name__ == "__main__":
 
 
 def sol(quiz):
-    grid = np.array([[int(quiz[i * 9 + j]) for j in range(9)] for i in range(9)]).tolist()
+    quiz = np.array([[int(quiz[i * 9 + j]) for j in range(9)] for i in range(9)]).tolist()
     ans = ''
-    for i in [x for x in list(solve_sudoku((3, 3), grid))[0]]:
+    for i in [x for x in list(solve_sudoku((3, 3), quiz))[0]]:
         for j in i:
             ans += str(j)
     return ans
