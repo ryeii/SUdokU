@@ -19,3 +19,4 @@ def to_mat(quiz):
 
 def to_str(mat):
     return ''.join(''.join(str(mat.tolist()[i])) for i in range(9))
+
