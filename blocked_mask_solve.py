@@ -1,3 +1,4 @@
+from re import sub
 import numpy as np
 
 
@@ -35,5 +36,35 @@ def to_quiz(sub_grids):
         for j in range(9):
             quiz += str(sub_grids[i][j].tolist()[0])
     return quiz
+
+
+# Takes a 9x9 matrix "mask" and a pair of coordinates (i, j) and returns a 9x9 matrix "mask" with the masking applied.
+def masking(mask, i, j):
+    for k in range(9):
+        mask[i][k] = 1
+    for a in range(3):
+        mask[i // 3 * 3 + a * 3][j // 3 * 3 + a * 3] = 1
+        mask[i // 3 * 3 + a][j // 3 * 3 + a] = 1
+    return mask
+
+
+# Takes a string of 81 characters representing a board and returns a string of 81 characters representing the solved board.
+def solve(quiz):
+    sub_grids = np.array(to_sub_grids(quiz))
+    nums_not_done = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    while nums_not_done:
+        for k in nums_not_done:
+            mask = sub_grids.copy()
+            r, c = np.where(mask == k)
+            for i in range(len(r)):
+                mask = masking(mask, r[i], c[i])
+            for i in mask:
+                if i.tolist().count(0) == 1:
+                    sub_grids.replace(0, k)
+                    r, c = np.where(sub_grids == k)
+                    if len(r) == 9:
+                        nums_not_done.remove(k)
+    return to_quiz(sub_grids)
+
 
 
