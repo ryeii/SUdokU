@@ -20,4 +20,14 @@ def to_mat(quiz):
 def to_str(mat):
     return ''.join(''.join(str(mat.tolist()[i])) for i in range(9))
 
+# Takes a string of 81 characters and returns a list of 9x9 matrices, each representing a 3x3 sub-grid.
+def to_sub_grids(quiz):
+    mat = to_mat(quiz)
+    sub_grids = []
+    for i in range(9):
+        for j in range(9):
+            if i in [0, 3, 6]:
+                if j in [0, 3, 6]:
+                    sub_grids.append(mat[i:i + 3, j:j + 3])
+    return sub_grids
 
