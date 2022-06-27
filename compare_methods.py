@@ -45,7 +45,7 @@ def run_test(m):
 # print()
 # display(quiz_df["solutions"][0])
 
-methods = [blocked_mask_solve.solve, mask_solve.solve, dancing_link.sol]
+methods = [mask_solve.solve, blocked_mask_solve.solve, dancing_link.sol]
 correct, size, solving_time = run_test(methods)
 for i in range(len(methods)):
     print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
