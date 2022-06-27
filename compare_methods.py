@@ -3,6 +3,7 @@ import time
 
 import dancing_link
 import mask_solve
+import blocked_mask_solve
 
 quiz_df = pd.read_csv("sudoku.csv", sep=',')
 
@@ -40,13 +41,13 @@ def run_test(m):
 
     return correct, size, solving_time
 
-# display(systematic_solve.solve(quiz_df["quizzes"][0]))
-# print()
-# display(quiz_df["solutions"][0])
+display(blocked_mask_solve.solve(quiz_df["quizzes"][0]))
+print()
+display(quiz_df["solutions"][0])
 
-methods = [mask_solve.solve, dancing_link.sol]
-correct, size, solving_time = run_test(methods)
-for i in range(len(methods)):
-    print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
-          "%. avg solving time: ",
-          str(solving_time[i]))
+# methods = [mask_solve.solve, dancing_link.sol]
+# correct, size, solving_time = run_test(methods)
+# for i in range(len(methods)):
+#     print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
+#           "%. avg solving time: ",
+#           str(solving_time[i]))

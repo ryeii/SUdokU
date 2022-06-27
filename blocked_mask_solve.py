@@ -27,14 +27,17 @@ def to_sub_grids(quiz):
             if i in [0, 3, 6]:
                 if j in [0, 3, 6]:
                     sub_grids.append(mat[i:i + 3, j:j + 3])
-    return sub_grids
+    return [[item for sublist in l for item in sublist] for l in sub_grids]
 
-# Takes a list of 9x9 matrices and returns a string of 81 characters, representing the board.
+
+# Reverse the effect of to_sub_grids.
 def to_quiz(sub_grids):
     quiz = ''
-    for i in range(9):
-        for j in range(9):
-            quiz += str(sub_grids[i][j].tolist()[0])
+    for i in range(3):
+        for j in range(3):
+            for k in range(3):
+                for l in range(3):
+                    quiz += str(sub_grids[i*3+j][k*3+l])
     return quiz
 
 
@@ -42,9 +45,14 @@ def to_quiz(sub_grids):
 def masking(mask, i, j):
     for k in range(9):
         mask[i][k] = 1
-    for a in range(3):
-        mask[i // 3 * 3 + a * 3][j // 3 * 3 + a * 3] = 1
-        mask[i // 3 * 3 + a][j // 3 * 3 + a] = 1
+    for k in range(3):
+        mask[i % 3 + k * 3][j % 3] = 1
+        mask[i % 3 + k * 3][j % 3 + 3] = 1
+        mask[i % 3 + k * 3][j % 3 + 6] = 1
+    for k in range(3):
+        mask[i // 3 * 3 + k][j // 3 * 3] = 1
+        mask[i // 3 * 3 + k][j // 3 * 3 + 1] = 1
+        mask[i // 3 * 3 + k][j // 3 * 3 + 2] = 1
     return mask
 
 
@@ -55,12 +63,15 @@ def solve(quiz):
     while nums_not_done:
         for k in nums_not_done:
             mask = sub_grids.copy()
-            r, c = np.where(mask == k)
+            print(np.where(mask == k))
+            print(sub_grids)
+            r, c = np.where(mask == k) 
             for i in range(len(r)):
                 mask = masking(mask, r[i], c[i])
-            for i in mask:
-                if i.tolist().count(0) == 1:
-                    sub_grids.replace(0, k)
+            for i in range(9):
+                list = mask[i].tolist()
+                if list.count(0) == 1:
+                    sub_grids[i, list.index(0)] = k
                     r, c = np.where(sub_grids == k)
                     if len(r) == 9:
                         nums_not_done.remove(k)
