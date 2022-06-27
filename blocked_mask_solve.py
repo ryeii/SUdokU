@@ -37,7 +37,7 @@ def to_quiz(sub_grids):
         for j in range(3):
             for k in range(3):
                 for l in range(3):
-                    quiz += str(sub_grids[i*3+j][k*3+l])
+                    quiz += str(sub_grids[i*3+k][j*3+l])
     return quiz
 
 
@@ -63,8 +63,6 @@ def solve(quiz):
     while nums_not_done:
         for k in nums_not_done:
             mask = sub_grids.copy()
-            print(np.where(mask == k))
-            print(sub_grids)
             r, c = np.where(mask == k) 
             for i in range(len(r)):
                 mask = masking(mask, r[i], c[i])

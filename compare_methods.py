@@ -41,13 +41,13 @@ def run_test(m):
 
     return correct, size, solving_time
 
-display(blocked_mask_solve.solve(quiz_df["quizzes"][0]))
-print()
-display(quiz_df["solutions"][0])
+# display(blocked_mask_solve.solve(quiz_df["quizzes"][0]))
+# print()
+# display(quiz_df["solutions"][0])
 
-# methods = [mask_solve.solve, dancing_link.sol]
-# correct, size, solving_time = run_test(methods)
-# for i in range(len(methods)):
-#     print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
-#           "%. avg solving time: ",
-#           str(solving_time[i]))
+methods = [blocked_mask_solve.solve, mask_solve.solve, dancing_link.sol]
+correct, size, solving_time = run_test(methods)
+for i in range(len(methods)):
+    print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
+          "%. avg solving time: ",
+          str(solving_time[i]))
