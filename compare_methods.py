@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import time
 
@@ -6,6 +8,7 @@ import mask_solve
 import blocked_mask_solve
 
 quiz_df = pd.read_csv("sudoku.csv", sep=',')
+print(quiz_df.size)
 
 
 def display(board):
@@ -19,10 +22,22 @@ def display(board):
         print()
 
 
-def run_test(m):
+def plot_clue_size_distribution(quiz_df, size):
+    plt.figure(figsize=(5, 5))
+    plt.title("Clue size distribution")
+    plt.xlabel("Clue size")
+    plt.ylabel("Number of quizzes")
+    clue_size = []
+    for i in range(size):
+        clue_size.append(81 - quiz_df["quizzes"][i].count('0'))
+    plt.hist(clue_size, bins=range(10, 60, 10))
+    plt.show()
+
+
+def run_test(m, size):
     correct = []
     solving_time = []
-    size = 500
+    # plot_clue_size_distribution(quiz_df, size)
 
     for k in range(len(methods)):
         correct.append(0)
@@ -46,7 +61,7 @@ def run_test(m):
 # display(quiz_df["solutions"][0])
 
 methods = [mask_solve.solve, blocked_mask_solve.solve, dancing_link.sol]
-correct, size, solving_time = run_test(methods)
+correct, size, solving_time = run_test(methods, 74220)
 for i in range(len(methods)):
     print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
           "%. avg solving time: ",
