@@ -45,7 +45,7 @@ def run_test(m, size):
 
         for i in range(size):
             if i % 1000 == 0:
-                print(str(i), " / ", str(size))
+                print("method ", str(k), ': ',str(i), " / ", str(size))
             start = time.time()
             sol = m[k](quiz_df["quizzes"][i])
             end = time.time()
@@ -61,7 +61,7 @@ def run_test(m, size):
 # display(quiz_df["solutions"][0])
 
 methods = [mask_solve.solve, blocked_mask_solve.solve, dancing_link.sol]
-correct, size, solving_time = run_test(methods, 74220)
+correct, size, solving_time = run_test(methods, 2000)
 for i in range(len(methods)):
     print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
           "%. avg solving time: ",

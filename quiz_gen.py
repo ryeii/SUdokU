@@ -1,4 +1,5 @@
 from random import sample
+import pandas as pd
 
 base  = 3
 side  = base*base
@@ -25,16 +26,40 @@ def gen_solution(base):
     return board
 
 
-def gen_quiz(sol):
-    board = sol
+def gen_quiz(base, empties):
+    temp = gen_solution(base)
+    board = temp.copy()
+    sol = ''.join(''.join(''.join(str(j)) for j in temp[i]) for i in range(9))
     squares = side*side
-    empties = squares * 3 // 4
-    for p in sample(range(squares),empties):
+    for p in sample(range(squares), empties):
         board[p//side][p%side] = 0
+    return (''.join(''.join(''.join(str(j)) for j in board[i]) for i in range(9)), sol)
 
-    numSize = len(str(side))
-    for line in board:
-        print(*(f"{n or '.':{numSize}} " for n in line))
+print(gen_quiz(base, 64))
 
+data_frame = [["quizzes", "solutions", "clue_numbers"]]
+pd.DataFrame(data_frame).to_csv("sudoku_cluewise.csv", sep=',', index=False, header=False)
 
-gen_quiz(gen_solution(base))
+data_frame = []
+counter = 0
+for i in range(1, 65):
+    print(i)
+    for j in range(1000):
+        quiz, sol = gen_quiz(base, i)
+        data_frame.append([quiz, sol, 81 - i])
+        counter += 1
+        if counter == 44200:
+            df = pd.DataFrame(data_frame)
+            df.to_csv("sudoku_cluewise1.csv", sep=',', index=False, header=False)
+            with open('sudoku_cluewise.csv', 'a') as outfile:
+                with open('sudoku_cluewise1.csv') as infile:
+                    for line in infile:
+                        outfile.write(line)
+            data_frame = []
+            counter = 0
+df = pd.DataFrame(data_frame)
+df.to_csv("sudoku_cluewise1.csv", sep=',', index=False, header=False)
+with open('sudoku_cluewise.csv', 'a') as outfile:
+    with open('sudoku_cluewise1.csv') as infile:
+        for line in infile:
+            outfile.write(line)
