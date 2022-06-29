@@ -1,5 +1,6 @@
 from random import sample
 import pandas as pd
+from pyrsistent import s
 
 base  = 3
 side  = base*base
