@@ -1,6 +1,6 @@
 import numpy as np
 import time
-
+import back_tracking
 
 def to_mat(quiz):
     return np.array([[int(quiz[i * 9 + j]) for j in range(9)] for i in range(9)])
@@ -49,10 +49,11 @@ def solve(quiz):
     sub_grids = np.array(to_sub_grids(quiz))
     nums_not_done = []
     for i in range(1, 10):
-        r, c = np.where(sub_grids == i)
+        r, _ = np.where(sub_grids == i)
         if len(r) < 9:
             nums_not_done.append(i)
-    while nums_not_done:
+    start = time.time()
+    while nums_not_done and time.time() - start < 0.0006:
         for k in nums_not_done:
             mask = sub_grids.copy()
             r, c = np.where(mask == k) 
@@ -62,9 +63,12 @@ def solve(quiz):
                 list = mask[i].tolist()
                 if list.count(0) == 1:
                     sub_grids[i, list.index(0)] = k
-                    r, c = np.where(sub_grids == k)
+                    r, _ = np.where(sub_grids == k)
                     if len(r) == 9:
                         nums_not_done.remove(k)
+    if nums_not_done:
+        return back_tracking.sol(to_quiz(sub_grids))
+
     return to_quiz(sub_grids)
 
 

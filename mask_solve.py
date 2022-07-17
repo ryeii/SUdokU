@@ -1,5 +1,17 @@
 import numpy as np
 import time
+import back_tracking
+
+
+def display(board):
+    for i in range(9):
+        if i in [3, 6]:
+            print('------+-------+------')
+        for j in range(9):
+            if j in [3, 6]:
+                print('| ', end='')
+            print(board[i * 9 + j] + ' ', end='')
+        print()
 
 
 def to_mat(quiz):
@@ -7,7 +19,7 @@ def to_mat(quiz):
 
 
 def to_str(mat):
-    return ''.join(''.join(str(mat.tolist()[i])) for i in range(9))
+    return ''.join(''.join(str(mat[i][j]) for j in range(9)) for i in range(9))
 
 
 def masking(mask, i, j):
@@ -54,11 +66,11 @@ def solve(quiz):
     mat = to_mat(quiz)
     nums_not_done = []
     for i in range(1, 10):
-        r, c = np.where(mat == i)
+        r, _ = np.where(mat == i)
         if len(r) < 9:
             nums_not_done.append(i)
-    print(nums_not_done)
-    while nums_not_done:
+    start = time.time()
+    while nums_not_done and time.time() - start < 0.0006:
         for k in nums_not_done:
             mask = np.copy(mat)
             rows, cols = np.where(mat == k)
@@ -69,12 +81,14 @@ def solve(quiz):
             for i in range(len(rows)):
                 if critical(mask, rows[i], cols[i]):
                     mat[rows[i], cols[i]] = k
-                    r, c = np.where(mat == k)
+                    r, _ = np.where(mat == k)
                     if len(r) == 9:
                         nums_not_done.remove(k)
     ans = ''
     for i in mat.tolist():
         for j in i:
             ans += str(j)
+    if nums_not_done:
+        return back_tracking.sol(ans)
     return ans
 
