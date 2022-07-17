@@ -6,6 +6,7 @@ import time
 import dancing_link
 import mask_solve
 import blocked_mask_solve
+import back_tracking
 
 quiz_df = pd.read_csv("sudoku_cluewise.csv", sep=',')
 print(quiz_df.size)
@@ -71,8 +72,8 @@ def run_test(m, size):
 # print()
 # display(quiz_df["solutions"][0])
 
-methods = [dancing_link.sol]
-correct, size, solving_time = run_test(methods, 192000)
+methods = [back_tracking.sol]
+correct, size, solving_time = run_test(methods, 1000)
 for i in range(len(methods)):
     print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
           "%. avg solving time: ",
