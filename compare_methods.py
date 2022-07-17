@@ -9,7 +9,6 @@ import blocked_mask_solve
 import back_tracking
 
 quiz_df = pd.read_csv("sudoku_cluewise.csv", sep=',')
-print(quiz_df.size)
 
 
 def display(board):
@@ -68,9 +67,9 @@ def run_test(m, size):
 
     return correct, size, solving_time
 
-# display(blocked_mask_solve.solve(quiz_df["quizzes"][0]))
-# print()
-# display(quiz_df["solutions"][0])
+display(back_tracking.sol(quiz_df["quizzes"][0]))
+print()
+display(quiz_df["solutions"][0])
 
 methods = [back_tracking.sol]
 correct, size, solving_time = run_test(methods, 1000)

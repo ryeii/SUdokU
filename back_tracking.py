@@ -115,7 +115,7 @@ def solve_sudoku(arr):
 def sol(quiz):
     quiz = np.array([[int(quiz[i * 9 + j]) for j in range(9)] for i in range(9)]).tolist()
     if solve_sudoku(quiz):
-        return ''.join(''.join(str(quiz[i])) for i in range(9))
+        return ''.join(''.join(str(quiz[i][j]) for j in range(9)) for i in range(9))
     return False
 
 # The above code has been contributed by Harshit Sidhwa.
