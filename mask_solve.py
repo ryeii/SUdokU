@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 
 def to_mat(quiz):
@@ -51,7 +52,12 @@ def critical(mask, i, j):
 
 def solve(quiz):
     mat = to_mat(quiz)
-    nums_not_done = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    nums_not_done = []
+    for i in range(1, 10):
+        r, c = np.where(mat == i)
+        if len(r) < 9:
+            nums_not_done.append(i)
+    print(nums_not_done)
     while nums_not_done:
         for k in nums_not_done:
             mask = np.copy(mat)

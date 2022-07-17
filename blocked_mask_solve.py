@@ -1,5 +1,5 @@
-from re import sub
 import numpy as np
+import time
 
 
 def to_mat(quiz):
@@ -47,7 +47,11 @@ def masking(mask, i, j):
 # Takes a string of 81 characters representing a board and returns a string of 81 characters representing the solved board.
 def solve(quiz):
     sub_grids = np.array(to_sub_grids(quiz))
-    nums_not_done = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    nums_not_done = []
+    for i in range(1, 10):
+        r, c = np.where(sub_grids == i)
+        if len(r) < 9:
+            nums_not_done.append(i)
     while nums_not_done:
         for k in nums_not_done:
             mask = sub_grids.copy()
