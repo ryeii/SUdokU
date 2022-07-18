@@ -62,7 +62,7 @@ def critical(mask, i, j):
     return block_wise.count(0) == 1
 
 
-def solve(quiz):
+def solve(quiz, time_limit=None):
     mat = to_mat(quiz)
     nums_not_done = []
     for i in range(1, 10):

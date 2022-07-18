@@ -45,7 +45,7 @@ def masking(mask, i, j):
 
 
 # Takes a string of 81 characters representing a board and returns a string of 81 characters representing the solved board.
-def solve(quiz):
+def solve(quiz, time_limit=None):
     sub_grids = np.array(to_sub_grids(quiz))
     nums_not_done = []
     for i in range(1, 10):

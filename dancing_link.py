@@ -100,7 +100,7 @@ if __name__ == "__main__":
     doctest.testmod()
 
 
-def sol(quiz):
+def sol(quiz, time_limit=None):
     quiz = np.array([[int(quiz[i * 9 + j]) for j in range(9)] for i in range(9)]).tolist()
     ans = ''
     for i in [x for x in list(solve_sudoku((3, 3), quiz))[0]]:

@@ -9,6 +9,7 @@ import blocked_mask_solve
 import back_tracking
 
 quiz_df = pd.read_csv("sudoku_cluewise.csv", sep=',')
+print(quiz_df["quizzes"].size)
 
 
 def display(board):
@@ -24,6 +25,8 @@ def display(board):
 
 # In case there is multiple answers for a quiz, here is a function to check whether a solution is valid
 def check(sol):
+    if sol == False:
+        return False
     grid = [sol[i: i + 9] for i in [0, 9, 18, 27, 36, 45, 54, 63, 72]]
     for i in grid:
         if not len(list(set(i))) == 9:
@@ -58,7 +61,10 @@ def run_test(m, size):
             if i % 1000 == 0:
                 print("method ", str(k), ': ',str(i), " / ", str(size))
             start = time.time()
-            sol = m[k](quiz_df["quizzes"][i])
+            if m[k] is back_tracking.sol:
+                sol = m[k](quiz_df["quizzes"][i], 0.1)
+            else:
+                sol = m[k](quiz_df["quizzes"][i])
             end = time.time()
             if quiz_df["solutions"][i] == sol:
                 correct[k] += 1
@@ -75,7 +81,7 @@ def run_test(m, size):
 
 methods = [back_tracking.sol, mask_solve.solve, blocked_mask_solve.solve, dancing_link.sol]
 # methods = [mask_solve.solve]
-correct, size, solving_time = run_test(methods, 30000)
+correct, size, solving_time = run_test(methods, quiz_df["quizzes"].size)
 for i in range(len(methods)):
     print("method", str(i), "solved", str(correct[i]), "out of", str(size), "puzzles,", str(correct[i] / size * 100),
             "%. avg solving time: ",
